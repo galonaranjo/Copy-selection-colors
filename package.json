@@ -1,5 +1,5 @@
 {
-  "name": "Copy-hex-values-from-selection",
+  "name": "copy-hex-values-from-selection",
   "version": "1.0.0",
   "description": "Your Figma Plugin",
   "main": "code.js",

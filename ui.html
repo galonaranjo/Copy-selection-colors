@@ -1,152 +1,162 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      background-color: #00023D;
-      background: linear-gradient(180deg, #1C567C 0%, #023B68 100%);
-      font-family: sans-serif;
-      overflow: hidden;
-    }
-    .container {
-      padding: 10px;
-    }
-    .tabs {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: 6px;
-      display: flex;
-      justify-content: space-between;
-      padding: 1px;
-    }
-    .tab {
-      color: rgba(255,255,255,0.3);
-      flex: 1;
-      font-family: "Inter", Helvetica, Arial, sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px;
-      text-align: center;
-      color: white;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .tab.active {
-      background: rgba(255,255,255,0.7);
-      color: rgba(0,0,0,1);
-    }
-    button {
-      border: none;
-      border-radius: 9px;
-      font-family: "Inter", Helvetica, Arial, sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 8px 10px;
-      width: 100%;
-    }
-    button.primary {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.2);
-      color: white;
-      min-height: 40px;
-    }
-    button.primary:hover {
-      cursor: pointer;
-      background: rgba(0, 2, 61, 0.3);
-      color: #EBFFFF; /* Optional: Change text color on hover */
-    }
-    pre {
-      background-color: rgba(255,255,255,.8);
-      border: 1px solid rgba(255,255,255,.6);
-      border-radius: 9px;
-      font-family: monospace;
-      font-size: 12px;
-      line-height: 150%;
-      margin-bottom: 12px;
-      padding: 8px;
-      height: 90px;
-      overflow-y: scroll;
-      white-space: pre-wrap;
-    }
-    .feedback {
-      background-color: rgba(235, 255, 239, 0.9);
-      border-radius: 6px;
-      color: #225B2D;
-      font-size: 13px;
-      visibility: hidden;
-      position: fixed;
-      bottom: 12px;
-      left: 10px;
-      right: 10px;
-      padding: 10px;
-      text-align: center;
-    }
-    textarea {
-      position: absolute;
-      left: -9999px;
-      top: -9999px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="tabs">
-      <div class="tab active" data-format="hex">Hex</div>
-      <div class="tab" data-format="rgba">RGBA</div>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        background-color: #00023d;
+        background: linear-gradient(180deg, #1c567c 0%, #023b68 100%);
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+      .container {
+        padding: 10px;
+      }
+      .tabs {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        padding: 1px;
+      }
+      .tab {
+        color: rgba(255, 255, 255, 0.3);
+        flex: 1;
+        font-family: "Inter", Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .tab.active {
+        background: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 1);
+      }
+      button {
+        border: none;
+        border-radius: 9px;
+        font-family: "Inter", Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 8px 10px;
+        width: 100%;
+      }
+      button.primary {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        min-height: 40px;
+      }
+      button.primary:hover {
+        cursor: pointer;
+        background: rgba(0, 2, 61, 0.3);
+        color: #ebffff; /* Optional: Change text color on hover */
+      }
+      pre {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 9px;
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 150%;
+        margin-bottom: 12px;
+        padding: 8px;
+        height: 90px;
+        overflow-y: scroll;
+        white-space: pre-wrap;
+      }
+      .feedback {
+        background-color: rgba(235, 255, 239, 0.9);
+        border-radius: 6px;
+        color: #225b2d;
+        font-size: 13px;
+        visibility: hidden;
+        position: fixed;
+        bottom: 12px;
+        left: 10px;
+        right: 10px;
+        padding: 10px;
+        text-align: center;
+      }
+      textarea {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="tabs">
+        <div class="tab active" data-format="hex">Hex</div>
+        <div class="tab" data-format="rgba">RGBA</div>
+      </div>
+      <pre id="output">Select something!</pre>
+      <button id="copy-values" class="primary">Copy to clipboard</button>
+      <button id="paste-values" class="primary">Paste below element</button>
+      <span class="feedback" id="copy-feedback">Copied to your clipboard!</span>
+
+      <!-- Hidden textarea for clipboard copying -->
+      <textarea id="clipboard-textarea"></textarea>
     </div>
-    <pre id="output">Select something!</pre>
-    <button id="copy-values" class="primary">Copy to clipboard</button>
-    <span class="feedback" id="copy-feedback">Copied to your clipboard!</span>
 
-    <!-- Hidden textarea for clipboard copying -->
-    <textarea id="clipboard-textarea"></textarea>
-  </div>
+    <script>
+      const tabs = document.querySelectorAll(".tab");
+      const outputElement = document.getElementById("output");
 
-  <script>
-    const tabs = document.querySelectorAll('.tab');
-    const outputElement = document.getElementById('output');
+      // Handle tab click
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          // Remove active class from all tabs
+          tabs.forEach((t) => t.classList.remove("active"));
+          // Add active class to the clicked tab
+          tab.classList.add("active");
 
-    // Handle tab click
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remove active class from all tabs
-        tabs.forEach(t => t.classList.remove('active'));
-        // Add active class to the clicked tab
-        tab.classList.add('active');
-
-        // Get the format from the clicked tab
-        const format = tab.getAttribute('data-format');
-        parent.postMessage({ pluginMessage: { type: 'set-format', format } }, '*');
+          // Get the format from the clicked tab
+          const format = tab.getAttribute("data-format");
+          parent.postMessage({ pluginMessage: { type: "set-format", format } }, "*");
+        });
       });
-    });
 
-    document.getElementById('copy-values').onclick = () => {
-      const outputText = outputElement.innerText;
+      document.getElementById("copy-values").onclick = () => {
+        const outputText = outputElement.innerText;
 
-      if (outputText.trim() !== "Select something!" && outputText.trim() !== "") {
-        const clipboardTextarea = document.getElementById('clipboard-textarea');
-        clipboardTextarea.value = outputText;
-        clipboardTextarea.select();
-        document.execCommand('copy');
+        if (outputText.trim() !== "Select something!" && outputText.trim() !== "") {
+          const clipboardTextarea = document.getElementById("clipboard-textarea");
+          clipboardTextarea.value = outputText;
+          clipboardTextarea.select();
+          document.execCommand("copy");
 
-        const feedback = document.getElementById('copy-feedback');
-        feedback.style.visibility = 'visible';
+          const feedback = document.getElementById("copy-feedback");
+          feedback.style.visibility = "visible";
 
-        setTimeout(() => {
-          feedback.style.visibility = 'hidden';
-        }, 2000);
-      }
-    };
+          setTimeout(() => {
+            feedback.style.visibility = "hidden";
+          }, 2000);
+        }
+      };
 
-    onmessage = (event) => {
-      const message = event.data.pluginMessage;
-      if (message.type === 'colors-in-format') {
-        outputElement.innerText = message.colorValues.length > 0
-          ? message.colorValues.join(', ')
-          : 'No colors found in the selection.';
-      }
-    };
-  </script>
-</body>
+      document.getElementById("paste-values").onclick = () => {
+        const outputText = outputElement.innerText;
+        if (outputText.trim() !== "Select something!" && outputText.trim() !== "") {
+          const colorValues = outputText.split(", ");
+          parent.postMessage({ pluginMessage: { type: "paste-text", colorValues: colorValues } }, "*");
+        }
+      };
+
+      onmessage = (event) => {
+        const message = event.data.pluginMessage;
+        if (message.type === "colors-in-format") {
+          outputElement.innerText =
+            message.colorValues.length > 0
+              ? message.colorValues.join(", ")
+              : "No colors found in the selection. Be sure to select an element with a fill color.";
+        }
+      };
+    </script>
+  </body>
 </html>
